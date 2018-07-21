@@ -12,7 +12,7 @@ module.exports = function (server) {
     socket.on('sendMsg', function ({content, from, to}) {
       console.log('sendMsg', {content, from, to})
       // 1. 保存到数据库集合(chats)
-      const chat_id = from + '_' + to
+      const chat_id = [from, to].sort().join('_')
       const create_time = Date.now()
       new ChatModel({content, from, to, chat_id, create_time}).save(function (error, chatMsg) {
         // 2. 全局发送消息给所有连接的浏览器(receiveMsg: chatMsg)
